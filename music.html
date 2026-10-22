@@ -3,66 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Davilanco | Official Website</title>
-  <meta name="description" content="Official website of Davilanco - Afrobeats Artist from Enugu, Nigeria. Listen to FELO ME, Music, Videos, Lyrics.">
-
-  
-  <!-- Link your CSS here -->
+  <title>Davilanco Music | Official Website</title>
+  <meta name="description" content="Listen to and download Davilanco music, view cover art, and join the conversation.">
   <link rel="stylesheet" href="css/style.css">
-  
-  <!-- Google Font -->
+  <link rel="stylesheet" href="css/music.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-
-  <!-- NAV -->
   <nav>
     <div class="nav-container">
-      <div class="logo">DAVILANCO</div>
-    
+      <a class="logo" href="index.html">DAVILANCO</a>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="music.html">Music</a></li>
-        <li><a href="videos.html">Videos</a></li>
-        <li><a href="inyi-history.html">My Origin</a></li>
-        <li><a href="support.html">Support</a></li>
-        <li><a href="fans.html">Fans List</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="lyrics.html">Lyrics</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html">Home</a></li><li><a href="music.html" class="active">Music</a></li>
+        <li><a href="videos.html">Videos</a></li><li><a href="inyi-history.html">My Origin</a></li>
+        <li><a href="support.html">Support</a></li><li><a href="fans.html">Fans List</a></li>
+        <li><a href="gallery.html">Gallery</a></li><li><a href="lyrics.html">Lyrics</a></li><li><a href="contact.html">Contact</a></li>
       </ul>
-    
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
- <!-- MUSIC -->
-  <section id="music">
-    <div class="container">
-      <h3>Latest Music</h3>
-      <div class="music-grid">
-        <div class="track featured">
-          <img src="images/felo-me.png" class="aud-img" alt="FELO ME Cover">
-          <h4>FELO ME</h4>
-          <p>Street Anthem</p>
-          <audio controls src="music/felo-me.mp3"></audio>
-          <a href="music/felo-me.mp3" download="Davilanco - FELO ME.mp3" class="btn btn-download">⬇ Download MP3</a>
+  <main class="music-page">
+    <header class="music-hero">
+      <p class="eyebrow">THE OFFICIAL MUSIC COLLECTION</p>
+      <h1>Feel the <span>Sound.</span></h1>
+      <p>Stream, discover and download music from Davilanco.</p>
+      <div class="account-actions" id="accountActions">
+        <a class="btn" href="#account" id="accountButton">Log in to comment</a>
+      </div>
+    </header>
+
+    <section class="music-section" aria-labelledby="musicHeading">
+      <div class="section-heading"><div><p class="eyebrow">LISTEN NOW</p><h2 id="musicHeading">Latest Music</h2></div><p id="musicCount" class="muted">Loading tracks…</p></div>
+      <div class="music-grid" id="musicGrid" aria-live="polite"><p class="muted">Loading music…</p></div>
+    </section>
+
+    <section class="account-section" id="account">
+      <div class="account-panel">
+        <p class="eyebrow">DAVILANCO COMMUNITY</p>
+        <h2 id="accountHeading">Join the conversation</h2>
+        <p class="muted">You need a Davilanco Store account to comment. Your existing shop account works here too.</p>
+        <div id="accountStatus" class="status-message" role="status" aria-live="polite"></div>
+        <div id="signedInPanel" hidden>
+          <p>Signed in as <strong id="signedInName"></strong></p>
+          <div class="account-actions"><a class="btn" href="dashboard.html">My dashboard</a><button class="btn btn-quiet" id="logoutButton" type="button">Log out</button></div>
+        </div>
+        <div id="authForms">
+          <div class="auth-tabs" role="tablist" aria-label="Account access">
+            <button type="button" class="auth-tab active" id="loginTab" role="tab" aria-selected="true">Log in</button>
+            <button type="button" class="auth-tab" id="signupTab" role="tab" aria-selected="false">Create account</button>
+          </div>
+          <form id="loginForm" class="auth-form">
+            <label>Email, nickname or phone<input name="login" autocomplete="username" required></label>
+            <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+            <button class="btn" type="submit">Log in</button>
+          </form>
+          <form id="signupForm" class="auth-form" hidden>
+            <div class="form-two"><label>First name<input name="firstname" autocomplete="given-name" required></label><label>Last name<input name="lastname" autocomplete="family-name" required></label></div>
+            <label>Nickname<input name="nickname" autocomplete="nickname" required></label>
+            <label>Phone number<input name="phone" type="tel" autocomplete="tel" required></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" required><small>At least 8 characters, with an uppercase letter, number and symbol.</small></label>
+            <button class="btn" type="submit">Create account</button>
+          </form>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 Davilanco</p>
-  </footer>
-  
-  <!-- Link your JS here -->
+    </section>
+  </main>
+  <footer><p>© 2026 Davilanco | From Oji to the World</p></footer>
   <script src="script.js"></script>
-
+  <script src="js/music.js" defer></script>
 </body>
 </html>
