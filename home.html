@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Davilanco | Official Website</title>
+  <meta name="description" content="Official website of Davilanco - Afrobeats Artist from Enugu, Nigeria. Listen to FELO ME, Music, Videos, Lyrics.">
+
+  
+  <!-- Link your CSS here -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo">DAVILANCO</div>
+    
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="videos.html">Videos</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="fans.html">Fans List</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="lyrics.html">Lyrics</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div>
+      <h1>DAVILANCO</h1>
+      <h2>FELO ME</h2>
+      <p>New Single Out Now | DAVILANCO</p>
+      <a href="music.html" class="btn">Listen Now</a>
+      <a href="support.html" class="btn">Support Me</a>
+    </div>
+  </section>
+
+  <!-- MUSIC -->
+  <section id="music">
+    <div class="container">
+      <h3>Latest Music</h3>
+      <div class="music-grid">
+        <div class="track featured">
+          <img src="images/felo-me.png" class="aud-img" alt="FELO ME Cover">
+          <h4>FELO ME</h4>
+          <p>Street Anthem</p>
+          <audio controls src="music/felo-me.mp3"></audio>
+          <a href="music/felo-me.mp3" download="Davilanco - FELO ME.mp3" class="btn btn-download">⬇ Download MP3</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section id="videos">
+    <div class="container">
+      <h3>Music Video</h3>
+      <div class="video-grid">
+        <iframe src="https://www.youtube.com/embed/V4QL76GtRrk" title="FELO ME - Davilanco" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT / SUBSCRIBE SECTION -->
+  <section id="support">
+    <div class="container">
+      <h3>Join The Movement</h3>
+      
+      <!-- SUBSCRIBE -->
+      <div class="subscribe-box">
+        <h4>Get Updates First</h4>
+        <p>New drops, merch, and exclusive content straight to your email</p>
+        <form action="https://formspree.io/f/mqpzllbv" method="POST">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+      </div>
+
+      <!-- SUPPORT -->
+      <h3>Support The Artist</h3>
+      <div class="support-grid">
+        <div class="support-card">
+          <h4>₦1000 Fan</h4>
+          <p>Buy me data to cook in the studio</p>
+          <a href="https://paystack.shop/pay/wqkvye7fjq" target="_blank" class="btn">Support ₦1000</a>
+        </div>
+        <div class="support-card">
+          <h4>₦5000 Boss</h4>
+          <p>Help fund the next music video</p>
+          <a href="https://paystack.shop/pay/xozss5p53i" target="_blank" class="btn">Support ₦5000</a>
+        </div>
+        <div class="support-card">
+          <h4>Custom</h4>
+          <p>Any amount is appreciated ❤️</p>
+          <a href="https://paystack.shop/pay/wqkvye7fjq" target="_blank" class="btn">Send Support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FANS LIST -->
+  <section id="fans">
+  <div class="container">
+    <h3>NAMES OF REAL FANS</h3>
+
+    <!-- POST FORM -->
+    <form action="post.php" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <textarea name="message" rows="3" placeholder="Drop a message for Davilanco..." required></textarea>
+      <button type="submit" class="btn">Post</button>
+    </form>
+
+    <!-- OTHERS POST FEED -->
+    <div style="margin-top:40px;">
+      <?php include 'show_posts.php'; ?>
+    </div>
+  </div>
+</section>
+  
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <h3>Gallery</h3>
+      <div class="gallery-grid">
+        <img src="images/felo-me.png" class="curved-img" alt="Davilanco FELO ME">
+        <!-- Add more images here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- LYRICS -->
+  <section id="lyrics">
+    <div class="container">
+      <h3>Lyrics Folder</h3>
+      <div class="lyric-card">
+        <h4>FELO ME</h4>
+        <pre>Unavailable at the moment
+Check back later</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h3>Get In Touch</h3>
+      <form class="contact-form" action="https://formspree.io/f/mqpzllbv" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+      
+     <!-- socials -->
+      <div class="socials">
+        <a href="https://Instagram.com/davilanco">Instagram</a>
+        <a href="https://twitter.com/davilanco">Twitter</a>
+        <a href="https://tiktok.com/@davilanco">TikTok</a>
+        <a href="https://youtube.com/@davilanco">YouTube</a>
+        <a href="https//facebook.com/davilanco37">FaceBook</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 Davilanco.com </p>
+  </footer>
+  <!-- Link your JS here -->
+  <script src="script.js"></script>
+</body>
+</html>
