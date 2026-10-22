@@ -1,23 +1,17 @@
 # Music assets
 
-Place the audio files and their cover images directly in this folder, for example:
+Put public audio files and matching cover images directly in this folder. No manifest file is required.
 
+Supported audio extensions: `.mp3`, `.m4a`, `.aac`, `.ogg`, `.oga`, `.wav`, `.flac`, and `.opus`.
+
+Supported image extensions: `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, and `.avif`.
+
+Example files:
 - `felo-me.mp3`
 - `felo-me.png`
 
-Then add each track to `manifest.json` in this format:
+The music page automatically discovers audio files through this repository's `/api/music` Cloudflare Pages Function. When a cover image has the same base filename as its audio file, it is displayed automatically. For example, `felo-me.mp3` pairs with `felo-me.png`.
 
-```json
-[
-  {
-    "id": "felo-me",
-    "title": "FELO ME",
-    "description": "Street Anthem",
-    "audio": "felo-me.mp3",
-    "image": "felo-me.png",
-    "downloadName": "Davilanco - FELO ME.mp3"
-  }
-]
-```
+After adding or removing files, commit the changes to the repository. The page refreshes its list from the folder; you do not need to edit a JSON manifest or JavaScript for each track.
 
-The music page uses this manifest because a static website cannot automatically list the contents of a folder in the visitor's browser. The media files themselves are served directly from this `music/` folder; no audio upload service or R2 bucket is required.
+The account, login/signup, and music-comments APIs live in this repository under `functions/api/` and use a Cloudflare D1 binding named `DB`. The `DB` binding must point to the same D1 database as the Store account system, and `SESSION_SECRET` (or `AE_APP_SECRET`) must match the Store project's session secret for existing account tokens to work.
