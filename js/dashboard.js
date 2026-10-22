@@ -6,7 +6,7 @@
  const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
  const showMessage=(text,error=false)=>{message.textContent=text;message.className='dashboard-message'+(error?' error':'');};
  const headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'};
- if(!token){showMessage('Please log in to view your dashboard. Opening the music page will let you sign in.',true);commentsBox.innerHTML='<a class="btn" href="music.html#account">Log in / Create account</a>';document.getElementById('profileCard').hidden=true;return;}
+ if(!token){showMessage('Please log in to view your dashboard. Open the music page to sign in.',true);commentsBox.innerHTML='<a class="btn" href="music.html#account">Log in / Create account</a>';document.getElementById('profileCard').hidden=true;return;}
  async function load(){
   try{
    const response=await fetch(API+'?mine=1',{headers:{'Authorization':'Bearer '+token}});
@@ -17,7 +17,12 @@
    document.getElementById('profileName').textContent=fullName;
    document.getElementById('profileEmail').textContent=user.email||'Email not available';
    document.getElementById('profileNickname').textContent=user.nickname?'@'+user.nickname:'';
-   document.getElementById('profileAvatar').textContent=(fullName.trim()[0]||'D').toUpperCase();
+   const avatar=document.getElementById('profileAvatar');
+   avatar.textContent=(fullName.trim()[0]||'D').toUpperCase();
+   if(typeof user.photo==='string' && /^https:\/\//i.test(user.photo)){
+    const image=document.createElement('img');image.src=user.photo;image.alt='Profile image';image.referrerPolicy='no-referrer';
+    image.onerror=()=>{avatar.textContent=(fullName.trim()[0]||'D').toUpperCase();};avatar.replaceChildren(image);
+   }
    showMessage('Your account is ready.');
    const comments=data.comments||[];document.getElementById('commentCount').textContent=comments.length+' comment'+(comments.length===1?'':'s');
    if(!comments.length){commentsBox.innerHTML='<div class="empty-comments">You have not commented on any music yet. <a href="music.html">Listen to music and leave the first comment.</a></div>';return;}
