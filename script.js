@@ -1,141 +1,47 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-  // 1. HAMBURGER MENU + X ANIMATION
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-
-  if(hamburger && navLinks){
-    hamburger.addEventListener('click', () => {
-      navLinks.classList.toggle('active'); // open/close menu
-      hamburger.classList.toggle('active'); // animate to X
-    });
-
-    // Close menu when you click a link
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active'); // reset to 3 lines
-      });
-    });
+  const hamburger=document.getElementById('hamburger'), navLinks=document.getElementById('navLinks');
+  if(hamburger&&navLinks){
+    hamburger.addEventListener('click',()=>{navLinks.classList.toggle('active');hamburger.classList.toggle('active');});
+    document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',()=>{navLinks.classList.remove('active');hamburger.classList.remove('active');}));
   }
+  const nav=document.querySelector('nav');
+  document.querySelectorAll('a[href^="#"]').forEach(anchor=>anchor.addEventListener('click',function(e){
+    const id=this.getAttribute('href');if(!id||id==='#')return;const target=document.querySelector(id);
+    if(target){e.preventDefault();window.scrollTo({top:target.offsetTop-(nav?nav.offsetHeight:70)+5,behavior:'smooth'});}
+  }));
+  const sections=document.querySelectorAll('section[id]'), navItems=document.querySelectorAll('.nav-links li a');
+  window.addEventListener('scroll',()=>{let current='';sections.forEach(section=>{const top=section.offsetTop-(nav?nav.offsetHeight:70)-60;if(window.pageYOffset>=top&&window.pageYOffset<top+section.clientHeight)current=section.id;});navItems.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+current)a.classList.add('active');});});
+  document.querySelectorAll('audio').forEach(audio=>audio.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==audio)other.pause();})));
+  const yearSpan=document.querySelector('footer p');if(yearSpan)yearSpan.innerHTML='© '+new Date().getFullYear()+' Davilanco.com | FELO ME Out Now';
 
-  // 2. SMOOTH SCROLL WITH OFFSET FOR FIXED NAV
-  const nav = document.querySelector('nav');
-  if(nav){
-    const navHeight = nav.offsetHeight;
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const targetId = this.getAttribute('href');
-        if(targetId === "#") return;
-        const target = document.querySelector(targetId);
-        if(target) {
-          e.preventDefault();
-          const top = target.offsetTop - navHeight + 5; // 5px extra space
-          window.scrollTo({ top: top, behavior: 'smooth' });
-        }
-      });
-    });
-  }
-
-  // 3. ACTIVE NAV LINK HIGHLIGHT ON SCROLL
-  const sections = document.querySelectorAll('section[id]');
-  const navLi = document.querySelectorAll('.nav-links li a');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    const navHeight = nav? nav.offsetHeight : 70;
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - navHeight - 60;
-      const sectionHeight = section.clientHeight;
-      if(pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
-        current = section.getAttribute('id');
-      }
-    });
-
-    navLi.forEach(a => {
-      a.classList.remove('active');
-      if(a.getAttribute('href') === `#${current}`) {
-        a.classList.add('active'); // add active class for CSS
-      }
-    });
-  });
-
-  // 4. FORM SUBMIT FEEDBACK - NO PAGE RELOAD
-  const forms = document.querySelectorAll('form');
-  forms.forEach(form => {
-    const btn = form.querySelector('button[type="submit"]');
-    if(btn) btn.dataset.original = btn.innerText;
-
-    form.addEventListener('submit', (e) => {
-      if(btn){
-        btn.innerText = 'Sending...';
-        btn.disabled = true;
-
-        // Let formspree submit, then reset after 2s
-        setTimeout(() => {
-          btn.innerText = 'Sent! ✓';
-          form.reset(); // clear inputs
-          setTimeout(() => {
-            btn.innerText = btn.dataset.original || 'Send';
-            btn.disabled = false;
-          }, 2000);
-        }, 800);
-      }
-    });
-  });
-
-  // 5. PAUSE OTHER AUDIO WHEN ONE PLAYS
-  const audios = document.querySelectorAll('audio');
-  audios.forEach(audio => {
-    audio.addEventListener('play', () => {
-      audios.forEach(other => {
-        if(other!== audio) other.pause();
-      });
-    });
-  });
-
-  // 6. ADD CURRENT YEAR TO FOOTER
-  const yearSpan = document.querySelector('footer p');
-  if(yearSpan){
-    yearSpan.innerHTML = `© ${new Date().getFullYear()} Davilanco.com | FELO ME Out Now`;
-  }
-
-});
-const API_URL = "https://davilanco-api.davilanco.workers.dev"; 
-
-// SUBMIT POST
-document.getElementById('postForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const message = document.getElementById('message').value;
-  
-  await fetch(API_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({name, message})
-  });
-  
-  document.getElementById('postForm').reset();
+  // Existing optional fan/support feed, only active on pages that contain the form.
+  const feedForm=document.getElementById('postForm'), feed=document.getElementById('postsFeed'), FEED_API='https://davilanco-api.davilanco.workers.dev';
+  async function loadPosts(){if(!feed)return;try{const res=await fetch(FEED_API);if(!res.ok)return;const posts=await res.json();feed.replaceChildren();posts.forEach(post=>{const card=document.createElement('div');card.className='support-card';card.style.cssText='margin-bottom:15px;text-align:left';const h=document.createElement('h4'),p=document.createElement('p'),small=document.createElement('small');h.textContent=post.name||'Listener';p.textContent=post.message||'';small.textContent=post.created_at?new Date(post.created_at).toLocaleString():'';card.append(h,p,small);feed.append(card);});}catch(_){}}
+  if(feedForm)feedForm.addEventListener('submit',async e=>{e.preventDefault();const name=document.getElementById('name')?.value||'',message=document.getElementById('message')?.value||'';try{const res=await fetch(FEED_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,message})});if(!res.ok)throw new Error();feedForm.reset();await loadPosts();alert('Post sent! Waiting for approval ❤️');}catch(_){alert('Could not send your post. Please try again.');}});
   loadPosts();
-  alert('Post sent! Waiting for approval ❤️');
-});
 
-// LOAD POSTS
-async function loadPosts() {
-  const res = await fetch(API_URL);
-  const posts = await res.json();
-  const feed = document.getElementById('postsFeed');
-  feed.innerHTML = "";
-  
-  posts.forEach(post => {
-    feed.innerHTML += `
-      <div class="support-card" style="margin-bottom:15px; text-align:left;">
-        <h4>${post.name}</h4>
-        <p>${post.message}</p>
-        <small style="opacity:0.6;">${new Date(post.created_at).toLocaleString()}</small>
-      </div>
-    `;
-  });
-}
-loadPosts();
+  const API='/api', token=()=>localStorage.getItem('token');
+  const getUser=()=>{try{return JSON.parse(localStorage.getItem('user')||'null');}catch(_){return null;}};
+  const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const authHeaders=()=>({'Authorization':'Bearer '+token(),'Content-Type':'application/json'});
+  const show=(node,msg,kind='')=>{if(node){node.textContent=msg||'';node.className=node.id==='dashboardMessage'?'dashboard-message'+(kind==='error'?' error':''):'status-message'+(kind?' '+kind:'');}};
+  const loginForm=document.getElementById('loginForm'), signupForm=document.getElementById('signupForm');
+  const accountStatus=document.getElementById('accountStatus');
+  function switchTab(which){if(!loginForm||!signupForm)return;const login=which==='login';loginForm.hidden=!login;signupForm.hidden=login;document.getElementById('loginTab')?.classList.toggle('active',login);document.getElementById('signupTab')?.classList.toggle('active',!login);document.getElementById('loginTab')?.setAttribute('aria-selected',String(login));document.getElementById('signupTab')?.setAttribute('aria-selected',String(!login));show(accountStatus,'');}
+  document.getElementById('loginTab')?.addEventListener('click',()=>switchTab('login'));
+  document.getElementById('signupTab')?.addEventListener('click',()=>switchTab('signup'));
+  function updateAccount(){const current=getUser(),signed=!!token()&&!!current;const signedPanel=document.getElementById('signedInPanel'),forms=document.getElementById('authForms');if(signedPanel)signedPanel.hidden=!signed;if(forms)forms.hidden=signed;const name=document.getElementById('signedInName');if(name)name.textContent=current?(current.nickname||current.firstname||current.email):'';const btn=document.getElementById('accountButton');if(btn)btn.textContent=signed?'Your account':'Log in to comment';const heading=document.getElementById('accountHeading');if(heading&&signed)heading.textContent='Welcome back';}
+  document.getElementById('logoutButton')?.addEventListener('click',()=>{localStorage.removeItem('token');localStorage.removeItem('user');updateAccount();show(accountStatus,'You have logged out.','success');renderTracks();});
+  if(loginForm)loginForm.addEventListener('submit',async e=>{e.preventDefault();const form=new FormData(loginForm);show(accountStatus,'Signing in…');try{const res=await fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({login:form.get('login'),password:form.get('password')})});const data=await res.json();if(!res.ok||!data.ok){show(accountStatus,data.error||'Could not sign in.','error');if(data.needs_verification)show(accountStatus,'Please verify your email first using the account verification page on shop.davilanco.com.','error');return;}localStorage.setItem('token',data.token);localStorage.setItem('user',JSON.stringify(data.user));loginForm.reset();updateAccount();show(accountStatus,'You are signed in. You can now comment on tracks.','success');await renderTracks();}catch(_){show(accountStatus,'Could not connect to the account service. Check the site API configuration.','error');}});
+  if(signupForm)signupForm.addEventListener('submit',async e=>{e.preventDefault();const body=Object.fromEntries(new FormData(signupForm).entries());show(accountStatus,'Creating your account…');try{const res=await fetch(API+'/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await res.json();if(!res.ok||!data.ok){show(accountStatus,data.error||'Could not create account.','error');return;}signupForm.reset();switchTab('login');show(accountStatus,data.message||'Account created. Check your email for verification before logging in.',data.email_sent?'success':'error');}catch(_){show(accountStatus,'Could not connect to the account service. Check the site API configuration.','error');}});
+  const grid=document.getElementById('musicGrid'), count=document.getElementById('musicCount');
+  async function loadComments(trackId){const list=document.querySelector('[data-comments="'+CSS.escape(trackId)+'"]');if(!list)return;try{const res=await fetch(API+'/music-comments?track='+encodeURIComponent(trackId));const data=await res.json();if(!res.ok)throw new Error();if(!data.comments?.length){list.innerHTML='<p class="muted">No comments yet. Start the conversation.</p>';return;}list.innerHTML=data.comments.map(c=>'<article class="comment-item"><div class="comment-meta"><strong>'+esc(c.nickname||[c.firstname,c.lastname].filter(Boolean).join(' ')||'Listener')+'</strong><time>'+esc(c.created_at)+'</time></div><p class="comment-body">'+esc(c.comment)+'</p></article>').join('');}catch(_){list.innerHTML='<p class="muted">Comments are temporarily unavailable.</p>';}}
+  async function renderTracks(){if(!grid)return;try{const res=await fetch(API+'/music',{cache:'no-store'});const data=await res.json();if(!res.ok)throw new Error();const tracks=data.tracks||[];if(count)count.textContent=tracks.length+' '+(tracks.length===1?'track':'tracks');if(!tracks.length){grid.innerHTML='<p class="muted">No audio files were found in the music folder yet. Add an audio file to /music in GitHub and it will appear here automatically.</p>';return;}grid.innerHTML=tracks.map(t=>'<article class="music-card" id="track-'+esc(t.id)+'"><div class="music-cover-wrap">'+(t.image?'<img class="music-cover" src="'+esc(t.image)+'" alt="'+esc(t.title)+' cover art" loading="lazy">':'<div class="music-cover"></div>')+'</div><div class="music-card-content"><h3>'+esc(t.title)+'</h3><p class="track-description">Davilanco</p><audio controls preload="none" src="'+esc(t.audio)+'">Your browser does not support audio playback.</audio><a class="btn btn-download" href="'+esc(t.audio)+'" download="'+esc(t.downloadName||t.title)+'">⬇ Download audio</a></div><section class="track-comments"><h4>Comments</h4><div class="comment-list" data-comments="'+esc(t.id)+'"><p class="muted">Loading comments…</p></div><form class="comment-form" data-track="'+esc(t.id)+'"><label class="muted" for="comment-'+esc(t.id)+'">Add your comment</label><textarea id="comment-'+esc(t.id)+'" name="comment" maxlength="1000" placeholder="'+(token()?'What do you think of this track?':'Log in to leave a comment')+'" '+(token()?'':'disabled')+' required></textarea><button class="btn" type="submit" '+(token()?'':'disabled')+'>'+(token()?'Post comment':'Log in to comment')+'</button></form></section></article>').join('');tracks.forEach(t=>loadComments(t.id));grid.querySelectorAll('.comment-form').forEach(form=>form.addEventListener('submit',async e=>{e.preventDefault();if(!token()){document.getElementById('account')?.scrollIntoView({behavior:'smooth'});switchTab('login');show(accountStatus,'Log in to your account before commenting.','error');return;}const track_id=form.dataset.track,textarea=form.elements.comment,button=form.querySelector('button'),comment=textarea.value.trim();if(!comment)return;button.disabled=true;button.textContent='Posting…';try{const response=await fetch(API+'/music-comments',{method:'POST',headers:authHeaders(),body:JSON.stringify({track_id,comment})});const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Could not post comment');textarea.value='';await loadComments(track_id);}catch(error){show(accountStatus,error.message||'Could not post comment.','error');}finally{button.disabled=!token();button.textContent=token()?'Post comment':'Log in to comment';}}));}catch(_){if(count)count.textContent='';grid.innerHTML='<p class="muted">Music could not be loaded. Please try again later.</p>';}}
+  updateAccount();renderTracks();
+
+  // User dashboard: profile, comments, and owner-only deletion.
+  const dashMessage=document.getElementById('dashboardMessage'), commentsBox=document.getElementById('myComments');
+  async function loadDashboard(){if(!commentsBox)return;if(!token()){show(dashMessage,'Please log in to view your dashboard.', 'error');commentsBox.innerHTML='<a class="btn" href="music.html#account">Log in / Create account</a>';return;}try{const res=await fetch(API+'/music-comments?mine=1',{headers:{Authorization:'Bearer '+token()}});const data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||'Could not load dashboard');const u=data.user||{},full=[u.firstname,u.lastname].filter(Boolean).join(' ')||u.nickname||'Davilanco listener';document.getElementById('profileCard').hidden=false;document.getElementById('profileName').textContent=full;document.getElementById('profileEmail').textContent=u.email||'Email not available';document.getElementById('profileNickname').textContent=u.nickname?'@'+u.nickname:'';const avatar=document.getElementById('profileAvatar');avatar.textContent=(full[0]||'D').toUpperCase();if(typeof u.photo==='string'&&/^https:\/\//i.test(u.photo)){const img=document.createElement('img');img.src=u.photo;img.alt='Profile image';img.referrerPolicy='no-referrer';img.onerror=()=>{avatar.textContent=(full[0]||'D').toUpperCase();};avatar.replaceChildren(img);}show(dashMessage,'Your account is ready.');const comments=data.comments||[],commentCount=document.getElementById('commentCount');if(commentCount)commentCount.textContent=comments.length+' comment'+(comments.length===1?'':'s');if(!comments.length){commentsBox.innerHTML='<div class="empty-comments">You have not commented on any music yet. <a href="music.html">Listen to music and leave the first comment.</a></div>';return;}commentsBox.innerHTML=comments.map(c=>'<article class="my-comment"><div class="my-comment-top"><span class="comment-track">'+esc(c.track_id)+'</span><time>'+esc(c.created_at)+'</time></div><p>'+esc(c.comment)+'</p><button type="button" class="delete-comment" data-delete="'+Number(c.id)+'">Delete comment</button></article>').join('');commentsBox.querySelectorAll('[data-delete]').forEach(button=>button.addEventListener('click',async()=>{if(!confirm('Delete this comment? This cannot be undone.'))return;button.disabled=true;button.textContent='Deleting…';try{const response=await fetch(API+'/music-comments?id='+encodeURIComponent(button.dataset.delete),{method:'DELETE',headers:authHeaders()});const result=await response.json();if(!response.ok||!result.ok)throw new Error(result.error||'Delete failed');await loadDashboard();}catch(error){show(dashMessage,error.message||'Could not delete comment.','error');button.disabled=false;button.textContent='Delete comment';}}));}catch(error){show(dashMessage,error.message||'Could not load your dashboard.','error');commentsBox.innerHTML='<a class="btn" href="music.html#account">Return to music page</a>';}}
+  document.getElementById('dashboardLogout')?.addEventListener('click',()=>{localStorage.removeItem('token');localStorage.removeItem('user');location.href='music.html#account';});
+  loadDashboard();
+});
