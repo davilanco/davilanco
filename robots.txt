@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block dashboard if it's private
+Disallow: /dashboard.html
+
+Sitemap: https://www.davilanco.com/sitemap.xml
