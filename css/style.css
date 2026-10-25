@@ -136,7 +136,7 @@
       top: 70px;
       right: 0;
       left: auto;
-      width: min(82vw, 360px);
+      width: 20vw;
       max-height: 0;
       overflow-x: hidden;
       overflow-y: auto;
