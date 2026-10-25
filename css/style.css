@@ -132,23 +132,38 @@
   /* MOBILE MENU */
   @media (max-width: 768px) {
     .nav-links {
-      position: absolute;
-      top: 0px;
-      left: 200px;
-      width: 50%;
-      background: var(--dark);
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
+      position: fixed;
+      top: 70px;
+      right: 0;
+      left: auto;
+      width: min(82vw, 360px);
       max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease-out;
-      border-top: 1px solid #222;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      background: rgba(10, 10, 10, 0.98);
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      border: 1px solid #222;
+      border-right: 0;
+      border-radius: 0 0 0 14px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease, visibility 0.35s;
+      z-index: 1000;
     }
-    
+
     .nav-links.active {
-      max-height: 500px;
-      padding: 20px 0 20px 0;
+      max-height: calc(100vh - 70px);
+      max-height: calc(100dvh - 70px);
+      padding: 8px 0 16px;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
     
     .nav-links li {
