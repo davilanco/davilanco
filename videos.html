@@ -4,60 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Davilanco | Official Website</title>
-  <meta name="description" content="Official website of Davilanco - Afrobeats Artist from Enugu, Nigeria. Listen to FELO ME, Music, Videos, Lyrics.">
-
-  
-  <!-- Link your CSS here -->
+  <meta name="description" content="Official website of Davilanco - Afrobeats Artist from Enugu, Nigeria. Listen to music, watch videos and explore lyrics.">
   <link rel="stylesheet" href="css/style.css">
-  
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    .video-card { min-width: 0; }
+    .video-card video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border-radius: 10px; }
+    .video-card h4 { margin: 12px 0 6px; }
+    .video-card p { margin-top: 0; }
+  </style>
 </head>
 <body>
 <header>
-  <!-- NAV -->
   <nav>
     <div class="nav-container">
       <div class="logo">DAVILANCO</div>
-    
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="music.html">Music</a></li>
         <li><a href="videos.html">Videos</a></li>
         <li><a href="inyi-history.html">My Origin</a></li>
         <li><a href="support.html">Support</a></li>
-       <!-- <li><a href="fans.html">Fans List</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><a href="lyrics.html">Lyrics</a></li>
-        <li><a href="contact.html">Contact</a></li> -->
       </ul>
-    
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 </header>
-    <!-- VIDEOS -->
-  <section id="videos">
-    <div class="container">
-      <h3>Music Video</h3>
-      <div class="video-grid">
-        <iframe src="https://www.youtube.com/embed/V4QL76GtRrk" title="FELO ME - Davilanco" allowfullscreen></iframe>
+
+<section id="videos">
+  <div class="container">
+    <h3>Music Videos</h3>
+    <div class="video-grid">
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/V4QL76GtRrk"
+          title="FELO ME - Davilanco" allowfullscreen loading="lazy"></iframe>
+      </div>
+
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="videos/its-not-mine-davilanco.mp4" type="video/mp4">
+          Your browser does not support the video element.
+        </video>
+        <h4>It's Not Mine — Davilanco</h4>
+        <p>Unreleased AI Version · Lyrics Video</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 Davilanco</p>
-  </footer>
-
-  <!-- Link your JS here -->
-  <script src="script.js"></script>
-
-  
-    </body>
-    </html>
+<footer>
+  <p>© 2026 Davilanco</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
