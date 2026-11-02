@@ -11,7 +11,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }));
   const sections=document.querySelectorAll('section[id]'), navItems=document.querySelectorAll('.nav-links li a');
   window.addEventListener('scroll',()=>{let current='';sections.forEach(section=>{const top=section.offsetTop-(nav?nav.offsetHeight:70)-60;if(window.pageYOffset>=top&&window.pageYOffset<top+section.clientHeight)current=section.id;});navItems.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+current)a.classList.add('active');});});
-  document.querySelectorAll('audio').forEach(audio=>audio.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==audio)other.pause();})));
+  // Keep every media type in sync: audio, native video, and YouTube embeds.
+  const pauseOtherNativeMedia = active => {
+    document.querySelectorAll('audio, video').forEach(media => {
+      if (media !== active && !media.paused) media.pause();
+    });
+    youtubePlayers.forEach(player => {
+      try {
+        if (player !== active && player.getPlayerState?.() === YT.PlayerState.PLAYING) player.pauseVideo();
+      } catch (_) {}
+    });
+  };
+  document.querySelectorAll('audio, video').forEach(media => {
+    media.addEventListener('play', () => pauseOtherNativeMedia(media));
+  });
+
+  // YouTube's iframe API lets YouTube playback pause native media and other embeds.
+  const youtubePlayers = new Set();
+  const youtubeFrames = [...document.querySelectorAll('iframe[src*="youtube.com/embed/"], iframe[src*="youtube-nocookie.com/embed/"]')];
+  if (youtubeFrames.length) {
+    youtubeFrames.forEach(frame => {
+      const url = new URL(frame.src, location.href);
+      url.searchParams.set('enablejsapi', '1');
+      url.searchParams.set('origin', location.origin);
+      frame.src = url.toString();
+    });
+    const initialiseYouTubePlayers = () => {
+      if (!window.YT?.Player) return;
+      youtubeFrames.forEach(frame => {
+        if (frame.dataset.mediaPlayerReady) return;
+        frame.dataset.mediaPlayerReady = 'true';
+        const player = new YT.Player(frame, {
+          events: {
+            onStateChange: event => {
+              if (event.data === YT.PlayerState.PLAYING) pauseOtherNativeMedia(player);
+            }
+          }
+        });
+        youtubePlayers.add(player);
+      });
+    };
+    if (window.YT?.Player) initialiseYouTubePlayers();
+    else {
+      const previousReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof previousReady === 'function') previousReady();
+        initialiseYouTubePlayers();
+      };
+      if (!document.querySelector('script[data-youtube-iframe-api]')) {
+        const api = document.createElement('script');
+        api.src = 'https://www.youtube.com/iframe_api';
+        api.async = true;
+        api.dataset.youtubeIframeApi = 'true';
+        document.head.append(api);
+      }
+    }
+  }
   const yearSpan=document.querySelector('footer p');if(yearSpan)yearSpan.innerHTML='© '+new Date().getFullYear()+' Davilanco.com | FELO ME Out Now';
 
   // Existing optional fan/support feed, only active on pages that contain the form.
