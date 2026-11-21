@@ -34,7 +34,7 @@ export async function requireSession(request, env) {
     const payload = JSON.parse(new TextDecoder().decode(fromB64url(parts[0])));
     if (!payload || !payload.id || !Number.isFinite(payload.exp) || payload.exp <= Date.now()) return unauthorized();
     const current = await env.DB.prepare('SELECT id, role, status, verified FROM users WHERE id = ?').bind(String(payload.id)).first();
-    if (!current || current.status === 'suspended' || Number(current.verified) !== 1) return unauthorized();
+    if (!current || current.status === 'suspended') return unauthorized();
     return {ok:true,user:{id:String(current.id),role:String(current.role || 'customer'),nickname:payload.nickname || ''}};
   } catch (_) { return unauthorized(); }
 }

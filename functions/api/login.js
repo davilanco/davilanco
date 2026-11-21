@@ -9,7 +9,6 @@ export async function onRequestPost({request,env}) {
     if (!user) return Response.json({error:'Invalid login or password'},{status:401});
     if (user.status === 'suspended') return Response.json({error:'Your account has been suspended'},{status:403});
     if (!await verifyPassword(password,user.password)) return Response.json({error:'Invalid login or password'},{status:401});
-    if (Number(user.verified) !== 1) return Response.json({error:'Please verify your email first',needs_verification:true,email:user.email},{status:403});
     const token = await createSessionToken({id:user.id,nickname:user.nickname,role:user.role,exp:Date.now()+7*24*60*60*1000},env);
     return Response.json({ok:true,token,user:{id:user.id,firstname:user.firstname,lastname:user.lastname,nickname:user.nickname,phone:user.phone,email:user.email,role:user.role}});
   } catch (error) {
