@@ -3,73 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Davilanco Music | Official Website</title>
-  <meta name="description" content="Listen to and download Davilanco music, view cover art, and join the conversation.">
+  <title>Davilanco — Afrobeats Artist from Enugu | FELO ME</title>
+  <meta name="description" content="Official website of Davilanco - Afrobeats Artist from Enugu, Nigeria. From Umu-egeshi Agbariji Inyi, Oji River LGA. Creator of FELO ME.">
+  <link rel="canonical" href="https://www.davilanco.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Davilanco — Afrobeats Artist from Enugu | FELO ME">
+  <meta property="og:description" content="Afrobeats Artist from Enugu, Nigeria | From Umu-egeshi Agbariji Inyi">
+  <meta property="og:url" content="https://www.davilanco.com/">
+  <meta property="og:image" content="https://www.davilanco.com/images/davilanco.jpg">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "Davilanco",
+    "genre": "Afrobeats",
+    "origin": "Umu-egeshi, Agbariji Inyi, Oji River LGA, Enugu State, Nigeria",
+    "url": "https://www.davilanco.com",
+    "sameAs": [
+      "https://instagram.com/davilanco",
+      "https://youtube.com/@davilanco",
+      "https://tiktok.com/@davilanco",
+      "https://facebook.com/davilanco37"
+    ]
+  }
+  </script>
 </head>
 <body>
+
+  <!-- NAV - NOW MATCHES music.html -->
   <nav>
     <div class="nav-container">
-      <a class="logo" href="index.html">DAVILANCO</a>
+      <div class="logo">DAVILANCO</div>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li><li><a href="music.html" class="active">Music</a></li>
-        <li><a href="videos.html">Videos</a></li><li><a href="inyi-history.html">My Origin</a></li>
-        <li><a href="support.html">Support</a></li><li><a href="fans.html">Fans List</a></li>
-        <li><a href="gallery.html">Gallery</a></li><li><a href="lyrics.html">Lyrics</a></li><li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="music.html">Music</a></li>
+        <li><a href="videos.html">Videos</a></li>
+        <li><a href="inyi-history.html">My Origin</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="fans.html">Fans List</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="lyrics.html">Lyrics</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     </div>
   </nav>
+  
+  <!-- HERO - WELCOME -->
+  <section class="hero" id="home">
+    <div>
+      <h1>DAVILANCO</h1>
+      <h2>FELO ME</h2>
+      <p>Afrobeats Artist from Enugu, Nigeria | From Umu-egeshi Agbariji Inyi</p>
+      <a href="music.html" class="btn">Listen Now</a>
+      <a href="inyi-history.html" class="btn btn-download">My Origin Story</a>
+    </div>
+  </section>
 
-  <main class="music-page">
-    <header class="music-hero">
-      <p class="eyebrow">THE OFFICIAL MUSIC COLLECTION</p>
-      <h1>Feel the <span>Sound.</span></h1>
-      <p>Stream, discover and download music from Davilanco.</p>
-      <div class="account-actions" id="accountActions">
-        <a class="btn" href="#account" id="accountButton">Log in to comment</a>
+  <!-- INTRODUCE / ABOUT -->
+  <section id="about">
+    <div class="container">
+      <h3>Who Is Davilanco?</h3>
+      <div class="lyric-card" style="text-align:center;">
+        <p style="font-size:1.1rem; line-height:2;">
+          I am <strong>Davilanco</strong>, an Afrobeats artist from <strong>Umu-egeshi, Agbariji Inyi</strong> in Oji River LGA, Enugu State. 
+          <br><br>
+          Born into the Udeafuta family. 
+          My music carries the endurance, courage and strength of Inyi Omire — the same spirit of the child who survived the forest at Aguezi.
+          <br><br>
+          My sound is street anthem meets origin story. From the Achii stream to the studio.
+        </p>
+        <a href="inyi-history.html" class="btn" style="margin-top:20px;">Read My Full Origin Story</a>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <section class="music-section" aria-labelledby="musicHeading">
-      <div class="section-heading"><div><p class="eyebrow">LISTEN NOW</p><h2 id="musicHeading">Latest Music</h2></div><p id="musicCount" class="muted">Loading tracks…</p></div>
-      <div class="music-grid" id="musicGrid" aria-live="polite"><p class="muted">Loading music…</p></div>
-    </section>
-
-    <section class="account-section" id="account">
-      <div class="account-panel">
-        <p class="eyebrow">DAVILANCO COMMUNITY</p>
-        <h2 id="accountHeading">Join the conversation</h2>
-        <p class="muted">You need a Davilanco Store account to comment. Your existing shop account works here too.</p>
-        <div id="accountStatus" class="status-message" role="status" aria-live="polite"></div>
-        <div id="signedInPanel" hidden>
-          <p>Signed in as <strong id="signedInName"></strong></p>
-          <div class="account-actions"><a class="btn" href="dashboard.html">My dashboard</a><button class="btn btn-quiet" id="logoutButton" type="button">Log out</button></div>
-        </div>
-        <div id="authForms">
-          <div class="auth-tabs" role="tablist" aria-label="Account access">
-            <button type="button" class="auth-tab active" id="loginTab" role="tab" aria-selected="true">Log in</button>
-            <button type="button" class="auth-tab" id="signupTab" role="tab" aria-selected="false">Create account</button>
-          </div>
-          <form id="loginForm" class="auth-form">
-            <label>Email, nickname or phone<input name="login" autocomplete="username" required></label>
-            <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
-            <button class="btn" type="submit">Log in</button>
-          </form>
-          <form id="signupForm" class="auth-form" hidden>
-            <div class="form-two"><label>First name<input name="firstname" autocomplete="given-name" required></label><label>Last name<input name="lastname" autocomplete="family-name" required></label></div>
-            <label>Nickname<input name="nickname" autocomplete="nickname" required></label>
-            <label>Phone number<input name="phone" type="tel" autocomplete="tel" required></label>
-            <label>Email<input name="email" type="email" autocomplete="email" required></label>
-            <label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" required><small>At least 8 characters, with an uppercase letter, number and symbol.</small></label>
-            <button class="btn" type="submit">Create account</button>
-          </form>
-        </div>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <h3>Get In Touch</h3>
+<form class="contact-form" action="https://formsubmit.co/davilanco37@gmail.com" method="POST">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+  
+  <!-- These make it work better -->
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_subject" value="New message from Davilanco website!">
+  <input type="hidden" name="_next" value="https://www.davilanco.com/thankyou.html">
+  
+  <button type="submit" class="btn">Send Message</button>
+</form>
+      
+<form action="https://formsubmit.co/davilanco37@gmail.com" method="POST">
+  <input type="email" name="email" placeholder="Enter your email" required>
+  <input type="hidden" name="_subject" value="New Subscriber - Davilanco!">
+  <input type="hidden" name="_captcha" value="false">
+  <button type="submit" class="btn">Subscribe</button>
+</form>
+      
+      <div class="socials" style="text-align:center; margin-top:30px;">
+        <a href="https://instagram.com/davilanco">Instagram</a> |
+        <a href="https://youtube.com/@davilanco">YouTube</a> |
+        <a href="https://tiktok.com/@davilanco">TikTok</a> |
+         <a href="https://facebook.com/davilanco37">FaceBook</a>
       </div>
-    </section>
-  </main>
-  <footer><p>© 2026 Davilanco | From Oji to the World</p></footer>
+    </div>
+  </section>
+
+  <footer><p>© 2026 Davilanco.com | From Oji to the World</p></footer>
   <script src="script.js"></script>
 </body>
 </html>
